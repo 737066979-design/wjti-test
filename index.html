@@ -50,13 +50,14 @@ body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei
 .result-top{background:#fff;border-radius:20px;padding:32px 24px;text-align:center;margin-top:12px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
 .r-label{font-size:14px;color:#999;margin-bottom:6px}
 .r-title{font-size:32px;font-weight:800;color:#222;margin-bottom:4px}
-.r-subtitle{font-size:18px;font-weight:700;color:#4a5e4a;margin-bottom:16px}
-.r-avatar{width:140px;height:140px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:64px}
+.r-avatars{display:flex;justify-content:center;align-items:center;gap:12px;margin:16px 0}
+.r-ava{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px}
+.r-times{font-size:28px;font-weight:800;color:#ccc}
 .r-quote{font-size:13px;color:#999;font-style:italic}
+.ri-tag{font-size:12px;color:#fff;background:#4a5e4a;display:inline-block;padding:3px 12px;border-radius:20px;margin-bottom:8px}
 
 .result-info{background:#fff;border-radius:20px;padding:24px;margin-top:12px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
 .ri-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.ri-type{font-size:12px;color:#999}
 .ri-name{font-size:22px;font-weight:800;color:#222;margin-bottom:8px}
 .ri-badge{display:inline-block;background:#e8ede5;color:#4a5e4a;font-size:12px;font-weight:600;padding:4px 14px;border-radius:20px;margin-bottom:14px}
 .ri-desc{font-size:14px;color:#666;line-height:1.9}
@@ -69,10 +70,6 @@ body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei
 .bar-val{height:100%;border-radius:5px;transition:width .8s}
 .bar-pct{width:36px;color:#999;font-size:12px}
 
-.result-sub{background:#fff;border-radius:20px;padding:24px;margin-top:12px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
-.rs-title{font-size:15px;font-weight:700;margin-bottom:10px}
-.rs-name{font-size:18px;font-weight:700;color:#4a5e4a;margin-bottom:4px}
-.rs-desc{font-size:13px;color:#888;line-height:1.7}
 
 .btn-row{text-align:center;margin:24px 0 40px}
 .btn-restart{background:transparent;border:2px solid #4a5e4a;color:#4a5e4a;border-radius:12px;padding:13px 44px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
@@ -111,26 +108,30 @@ body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei
   <!-- 结果页 -->
   <div class="page" id="pageResult">
     <div class="result-top">
-      <div class="r-label">你的人格类型是：</div>
+      <div class="r-label">你的组合人格是：</div>
       <div class="r-title" id="rTitle"></div>
-      <div class="r-subtitle" id="rCode"></div>
-      <div class="r-avatar" id="rAvatar"></div>
+      <div class="r-avatars" id="rAvatars"></div>
       <div class="r-quote" id="rQuote"></div>
     </div>
     <div class="result-info">
-      <div class="ri-type">你的主类型</div>
-      <div class="ri-name" id="riName"></div>
-      <div class="ri-badge" id="riBadge"></div>
-      <div class="ri-desc" id="riDesc"></div>
+      <div class="ri-tag" id="riTag1">社区人格</div>
+      <div class="ri-name" id="riName1"></div>
+      <div class="ri-badge" id="riBadge1"></div>
+      <div class="ri-desc" id="riDesc1"></div>
+    </div>
+    <div class="result-info">
+      <div class="ri-tag" id="riTag2">角色人格</div>
+      <div class="ri-name" id="riName2"></div>
+      <div class="ri-badge" id="riBadge2"></div>
+      <div class="ri-desc" id="riDesc2"></div>
     </div>
     <div class="result-detail">
-      <div class="rd-title">你的人格维度分布</div>
-      <div id="rBars"></div>
+      <div class="rd-title">社区向维度分布</div>
+      <div id="rBarsC"></div>
     </div>
-    <div class="result-sub" id="resultSub" style="display:none">
-      <div class="rs-title">副人格</div>
-      <div class="rs-name" id="rsName"></div>
-      <div class="rs-desc" id="rsDesc"></div>
+    <div class="result-detail">
+      <div class="rd-title">角色向维度分布</div>
+      <div id="rBarsR"></div>
     </div>
     <div class="btn-row">
       <button class="btn-restart" onclick="restart()">重新测试</button>
@@ -567,7 +568,9 @@ function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(
 function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
 
 function startQuiz(){
-  picked=[...shuffle(communityBank).slice(0,10),...shuffle(roleBank).slice(0,10)];
+  const cPicked=shuffle(communityBank).slice(0,10).map(q=>({...q,_type:'c'}));
+  const rPicked=shuffle(roleBank).slice(0,10).map(q=>({...q,_type:'r'}));
+  picked=[...cPicked,...rPicked];
   answers={};
   renderQuestions();
   showPage('pageQuiz');
@@ -624,53 +627,52 @@ function toast(msg){
 
 function submitQuiz(){
   if(Object.keys(answers).length<TOTAL){toast('请回答完所有题目');return}
-  // 统计
-  const scores={};
-  Object.values(answers).forEach(k=>{scores[k]=(scores[k]||0)+1});
-  const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
-  const top=sorted[0];
-  const topKey=top[0];
-  const topCount=top[1];
-  const pct=Math.round((topCount/TOTAL)*100);
-  const p=profiles[topKey];
-  if(!p){toast('结果计算异常');return}
+  // 分开统计社区向和角色向
+  const cScores={},rScores={};
+  Object.entries(answers).forEach(([qi,k])=>{
+    if(picked[qi]._type==='c') cScores[k]=(cScores[k]||0)+1;
+    else rScores[k]=(rScores[k]||0)+1;
+  });
+  const cSorted=Object.entries(cScores).sort((a,b)=>b[1]-a[1]);
+  const rSorted=Object.entries(rScores).sort((a,b)=>b[1]-a[1]);
+  const cTop=cSorted[0], rTop=rSorted[0];
+  const cp=profiles[cTop[0]], rp=profiles[rTop[0]];
+  if(!cp||!rp){toast('结果计算异常');return}
 
-  // 填充结果
-  document.getElementById('rTitle').textContent='无尽冬日'+p.title;
-  document.getElementById('rCode').textContent='';
-  document.getElementById('rAvatar').textContent=p.emoji;
-  document.getElementById('rAvatar').style.background=p.color+'22';
-  document.getElementById('rQuote').textContent=p.quote;
-  document.getElementById('riName').textContent=`无尽冬日${p.title}`;
-  document.getElementById('riBadge').textContent=`匹配度 ${pct}% · 精准命中 ${topCount}/${TOTAL} 题`;
-  document.getElementById('riDesc').textContent=p.desc;
+  // 顶部组合标题
+  document.getElementById('rTitle').textContent=`无尽冬日${cp.title} × ${rp.title}`;
+  document.getElementById('rAvatars').innerHTML=`
+    <div class="r-ava" style="background:${cp.color}22">${cp.emoji}</div>
+    <span class="r-times">×</span>
+    <div class="r-ava" style="background:${rp.color}22">${rp.emoji}</div>`;
+  document.getElementById('rQuote').textContent=`"${cp.quote}" + "${rp.quote}"`;
 
-  // 副人格
-  const sub=document.getElementById('resultSub');
-  if(sorted.length>1){
-    const s2=sorted[1];
-    const p2=profiles[s2[0]];
-    if(p2){
-      sub.style.display='block';
-      document.getElementById('rsName').textContent=`无尽冬日${p2.title}`;
-      document.getElementById('rsDesc').textContent=`命中 ${s2[1]}/${TOTAL} 题 · ${p2.quote}`;
-    }
-  }else{sub.style.display='none'}
+  // 社区人格卡片
+  document.getElementById('riName1').textContent=`无尽冬日${cp.title}`;
+  document.getElementById('riBadge1').textContent=`命中 ${cTop[1]}/10 题`;
+  document.getElementById('riDesc1').textContent=cp.desc;
+
+  // 角色人格卡片
+  document.getElementById('riName2').textContent=`无尽冬日${rp.title}`;
+  document.getElementById('riBadge2').textContent=`命中 ${rTop[1]}/10 题`;
+  document.getElementById('riDesc2').textContent=rp.desc;
 
   // 柱状图
   const colors=['#4a5e4a','#6b8e6b','#8fbc8f','#b5d5b5','#d4e8d4','#e8e8e8'];
-  let barsHtml='';
-  sorted.slice(0,6).forEach(([name,count],i)=>{
-    const pp=Math.round((count/TOTAL)*100);
-    const pf=profiles[name];
-    const label=pf?pf.title:name;
-    barsHtml+=`<div class="bar-row">
-      <span class="bar-name">${label}</span>
-      <div class="bar-track"><div class="bar-val" style="width:${pp}%;background:${colors[i]||colors[5]}"></div></div>
-      <span class="bar-pct">${pp}%</span>
-    </div>`;
-  });
-  document.getElementById('rBars').innerHTML=barsHtml;
+  function renderBars(sorted,total){
+    return sorted.map(([name,count],i)=>{
+      const pp=Math.round((count/total)*100);
+      const pf=profiles[name];
+      const label=pf?pf.title:name;
+      return `<div class="bar-row">
+        <span class="bar-name">${label}</span>
+        <div class="bar-track"><div class="bar-val" style="width:${pp}%;background:${colors[i]||colors[5]}"></div></div>
+        <span class="bar-pct">${pp}%</span>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('rBarsC').innerHTML=renderBars(cSorted,10);
+  document.getElementById('rBarsR').innerHTML=renderBars(rSorted,10);
 
   showPage('pageResult');
 }
