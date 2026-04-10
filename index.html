@@ -708,7 +708,12 @@ function submitQuiz(){
   });
   const cSorted=Object.entries(cScores).sort((a,b)=>b[1]-a[1]);
   const rSorted=Object.entries(rScores).sort((a,b)=>b[1]-a[1]);
-  const cTop=cSorted[0], rTop=rSorted[0];
+  let cTop=cSorted[0], rTop=rSorted[0];
+  // 如果社区和角色都是同一人格（如佛系），角色取第二名；若角色无第二名则社区取第二名
+  if(cTop[0]===rTop[0]){
+    if(rSorted.length>1) rTop=rSorted[1];
+    else if(cSorted.length>1) cTop=cSorted[1];
+  }
   const cp=profiles[cTop[0]], rp=profiles[rTop[0]];
   if(!cp||!rp){toast('结果计算异常');return}
 
