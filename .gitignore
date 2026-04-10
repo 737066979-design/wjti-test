@@ -1,2 +1,5 @@
 img/backup/
 .vercel
+.DS_Store
+MBTI/
+*.xlsx
