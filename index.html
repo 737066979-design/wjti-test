@@ -590,12 +590,12 @@ function submitQuiz(){
   if(!p){toast('结果计算异常');return}
 
   // 填充结果
-  document.getElementById('rTitle').textContent=p.title;
-  document.getElementById('rCode').textContent=p.code;
+  document.getElementById('rTitle').textContent='无尽冬日'+p.title;
+  document.getElementById('rCode').textContent='';
   document.getElementById('rAvatar').textContent=p.emoji;
   document.getElementById('rAvatar').style.background=p.color+'22';
   document.getElementById('rQuote').textContent=p.quote;
-  document.getElementById('riName').textContent=`${p.code}（${p.title}）`;
+  document.getElementById('riName').textContent=`无尽冬日${p.title}`;
   document.getElementById('riBadge').textContent=`匹配度 ${pct}% · 精准命中 ${topCount}/${TOTAL} 题`;
   document.getElementById('riDesc').textContent=p.desc;
 
@@ -606,7 +606,7 @@ function submitQuiz(){
     const p2=profiles[s2[0]];
     if(p2){
       sub.style.display='block';
-      document.getElementById('rsName').textContent=`${p2.code}（${p2.title}）`;
+      document.getElementById('rsName').textContent=`无尽冬日${p2.title}`;
       document.getElementById('rsDesc').textContent=`命中 ${s2[1]}/${TOTAL} 题 · ${p2.quote}`;
     }
   }else{sub.style.display='none'}
