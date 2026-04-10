@@ -2,995 +2,634 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>无尽冬日玩家人格测试</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>WJTI 无尽冬日人格测试</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #dcedc8 100%);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-}
-.container {
-  max-width: 480px;
-  width: 100%;
-  margin: 0 auto;
-  padding-bottom: 40px;
-}
-.card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  padding: 32px 24px;
-  margin-bottom: 16px;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#e8ede5;color:#333;min-height:100vh}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
 
-/* 首页 */
-#page-home { text-align: center; }
-#page-home h1 {
-  font-size: 28px;
-  font-weight: 800;
-  color: #2e3a2e;
-  line-height: 1.4;
-  margin-bottom: 8px;
-}
-#page-home .subtitle {
-  font-size: 15px;
-  color: #6b7b6b;
-  margin-bottom: 32px;
-  line-height: 1.6;
-}
-.btn-start {
-  display: inline-block;
-  background: #4a6741;
-  color: #fff;
-  border: none;
-  padding: 14px 48px;
-  font-size: 17px;
-  font-weight: 600;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-start:hover { background: #3d5636; transform: scale(1.02); }
-.btn-start:active { transform: scale(0.98); }
-.home-footer {
-  margin-top: 28px;
-  font-size: 13px;
-  color: #999;
-  line-height: 1.8;
-}
+/* ===== 首页 ===== */
+.page{display:none}.page.active{display:block}
+.home-card{background:#fff;border-radius:20px;padding:50px 28px 40px;text-align:center;margin-top:30px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.home-card h1{font-size:28px;font-weight:800;color:#222;line-height:1.4;margin-bottom:24px}
+.btn-start{display:inline-block;background:#4a5e4a;color:#fff;border:none;border-radius:12px;padding:14px 44px;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-start:hover{background:#3d4f3d;transform:translateY(-1px)}
+.home-footer{margin-top:28px;font-size:13px;color:#999;line-height:1.8}
+.home-footer a{color:#4a5e4a}
 
-/* 答题页 */
-#page-quiz { display: none; }
-.progress-bar {
-  background: #e8f0e8;
-  border-radius: 8px;
-  height: 8px;
-  margin-bottom: 8px;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #66bb6a, #43a047);
-  border-radius: 8px;
-  transition: width 0.4s ease;
-  width: 0%;
-}
-.progress-text {
-  text-align: right;
-  font-size: 13px;
-  color: #999;
-  margin-bottom: 20px;
-}
-.question-card {
-  background: #fafcfa;
-  border: 1px solid #e8f0e8;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
-}
-.question-num {
-  display: inline-block;
-  background: #e8f5e9;
-  color: #4a6741;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  margin-bottom: 12px;
-}
-.question-text {
-  font-size: 16px;
-  font-weight: 500;
-  color: #2e3a2e;
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-.option {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border: 1.5px solid #e0e8e0;
-  border-radius: 10px;
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.option:hover { border-color: #66bb6a; background: #f5faf5; }
-.option.selected { border-color: #43a047; background: #e8f5e9; }
-.option-letter {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 13px;
-  color: #888;
-  margin-right: 12px;
-  flex-shrink: 0;
-  transition: all 0.2s;
-}
-.option.selected .option-letter {
-  border-color: #43a047;
-  background: #43a047;
-  color: #fff;
-}
-.option-text { font-size: 15px; color: #333; }
+/* ===== 答题页 ===== */
+.quiz-card{background:#fff;border-radius:20px;padding:24px 20px 32px;margin-top:12px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.prog-row{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.prog-bar{flex:1;height:6px;background:#e8ede5;border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:#4a5e4a;border-radius:3px;transition:width .3s}
+.prog-text{font-size:13px;color:#999;white-space:nowrap}
 
-.btn-next {
-  display: block;
-  width: 100%;
-  background: #4a6741;
-  color: #fff;
-  border: none;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: all 0.2s;
-}
-.btn-next:disabled { background: #bbb; cursor: not-allowed; }
-.btn-next:not(:disabled):hover { background: #3d5636; }
+.q-block{border:1.5px solid #eee;border-radius:14px;padding:20px 18px;margin-bottom:16px;transition:border-color .3s}
+.q-block.answered{border-color:#c5d6c5}
+.q-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.q-num{display:inline-block;background:#e8ede5;color:#4a5e4a;font-size:12px;font-weight:600;padding:3px 10px;border-radius:6px}
+.q-dim{font-size:12px;color:#bbb}
+.q-text{font-size:15px;font-weight:600;line-height:1.6;margin-bottom:16px;color:#222}
 
-/* 结果页 */
-#page-result { display: none; }
-.result-header {
-  text-align: center;
-  margin-bottom: 8px;
-}
-.result-label {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 8px;
-}
-.result-type-name {
-  font-size: 36px;
-  font-weight: 900;
-  color: #2e3a2e;
-  margin-bottom: 4px;
-}
-.result-type-code {
-  font-size: 22px;
-  font-weight: 700;
-  color: #4a6741;
-  margin-bottom: 16px;
-}
-.result-match {
-  display: inline-block;
-  background: #e8f5e9;
-  color: #2e7d32;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 4px 14px;
-  border-radius: 20px;
-  margin-bottom: 16px;
-}
-.result-desc-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #2e3a2e;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #eee;
-}
-.result-desc {
-  font-size: 14px;
-  color: #555;
-  line-height: 1.8;
-  margin-bottom: 4px;
-}
-.score-section-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #2e3a2e;
-  margin-bottom: 16px;
-}
-.score-item {
-  margin-bottom: 14px;
-}
-.score-label {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-.score-name { font-size: 13px; color: #555; font-weight: 600; }
-.score-value { font-size: 13px; color: #4a6741; font-weight: 700; }
-.score-bar {
-  height: 8px;
-  background: #e8f0e8;
-  border-radius: 4px;
-  overflow: hidden;
-}
-.score-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #81c784, #43a047);
-  border-radius: 4px;
-  transition: width 0.6s ease;
-}
-.score-bar-fill.low { background: linear-gradient(90deg, #ffcc80, #ffa726); }
-.score-bar-fill.mid { background: linear-gradient(90deg, #81c784, #66bb6a); }
-.score-bar-fill.high { background: linear-gradient(90deg, #43a047, #2e7d32); }
+.opt-list{display:flex;flex-direction:column;gap:10px}
+.opt-item{display:flex;align-items:center;gap:10px;border:1.5px solid #e8e8e8;border-radius:12px;padding:13px 14px;cursor:pointer;transition:all .2s;font-size:14px;color:#444;line-height:1.5}
+.opt-item:hover{border-color:#b5c9b5;background:#f7faf7}
+.opt-item.selected{border-color:#4a5e4a;background:#f0f5f0}
+.opt-radio{width:22px;height:22px;border-radius:50%;border:2px solid #ccc;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.opt-item.selected .opt-radio{border-color:#4a5e4a;background:#4a5e4a}
+.opt-item.selected .opt-radio::after{content:"";width:8px;height:8px;background:#fff;border-radius:50%}
+.opt-letter{font-weight:700;color:#4a5e4a;flex-shrink:0}
+.opt-content{flex:1}
 
-.btn-restart {
-  display: block;
-  width: 100%;
-  background: #4a6741;
-  color: #fff;
-  border: none;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-restart:hover { background: #3d5636; }
-.btn-share {
-  display: block;
-  width: 100%;
-  background: #fff;
-  color: #4a6741;
-  border: 2px solid #4a6741;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-bottom: 10px;
-  transition: all 0.2s;
-}
-.btn-share:hover { background: #f5faf5; }
+.btn-submit{display:block;width:100%;background:#4a5e4a;color:#fff;border:none;border-radius:12px;padding:15px 0;font-size:16px;font-weight:600;cursor:pointer;margin-top:8px;transition:all .2s}
+.btn-submit:hover{background:#3d4f3d}
+.btn-submit:disabled{background:#ccc;cursor:not-allowed}
 
-.top3-list { margin-bottom: 0; }
-.top3-item {
-  display: flex;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-.top3-item:last-child { border-bottom: none; }
-.top3-rank {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-.top3-rank.r1 { background: #ffc107; }
-.top3-rank.r2 { background: #90a4ae; }
-.top3-rank.r3 { background: #bc8f6f; }
-.top3-name { font-size: 14px; color: #333; flex: 1; }
-.top3-score { font-size: 13px; color: #4a6741; font-weight: 700; }
+/* ===== 结果页 ===== */
+.result-top{background:#fff;border-radius:20px;padding:32px 24px;text-align:center;margin-top:12px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.r-label{font-size:14px;color:#999;margin-bottom:6px}
+.r-title{font-size:32px;font-weight:800;color:#222;margin-bottom:4px}
+.r-subtitle{font-size:18px;font-weight:700;color:#4a5e4a;margin-bottom:16px}
+.r-avatar{width:140px;height:140px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:64px}
+.r-quote{font-size:13px;color:#999;font-style:italic}
 
-/* 动画 */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.fade-in { animation: fadeIn 0.4s ease; }
+.result-info{background:#fff;border-radius:20px;padding:24px;margin-top:12px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.ri-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ri-type{font-size:12px;color:#999}
+.ri-name{font-size:22px;font-weight:800;color:#222;margin-bottom:8px}
+.ri-badge{display:inline-block;background:#e8ede5;color:#4a5e4a;font-size:12px;font-weight:600;padding:4px 14px;border-radius:20px;margin-bottom:14px}
+.ri-desc{font-size:14px;color:#666;line-height:1.9}
+
+.result-detail{background:#fff;border-radius:20px;padding:24px;margin-top:12px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.rd-title{font-size:15px;font-weight:700;color:#222;margin-bottom:16px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:13px}
+.bar-name{width:100px;text-align:right;color:#666;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;height:10px;background:#f0f0f0;border-radius:5px;overflow:hidden}
+.bar-val{height:100%;border-radius:5px;transition:width .8s}
+.bar-pct{width:36px;color:#999;font-size:12px}
+
+.result-sub{background:#fff;border-radius:20px;padding:24px;margin-top:12px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.rs-title{font-size:15px;font-weight:700;margin-bottom:10px}
+.rs-name{font-size:18px;font-weight:700;color:#4a5e4a;margin-bottom:4px}
+.rs-desc{font-size:13px;color:#888;line-height:1.7}
+
+.btn-row{text-align:center;margin:24px 0 40px}
+.btn-restart{background:transparent;border:2px solid #4a5e4a;color:#4a5e4a;border-radius:12px;padding:13px 44px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-restart:hover{background:#4a5e4a;color:#fff}
+
+.tip-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#4a5e4a;color:#fff;padding:10px 24px;border-radius:10px;font-size:14px;z-index:99;display:none;box-shadow:0 4px 16px rgba(0,0,0,.15)}
 </style>
 </head>
 <body>
-<div class="container">
-
+<div class="wrap">
   <!-- 首页 -->
-  <div id="page-home" class="card fade-in">
-    <h1>SBTI已经过时，<br>WJTI来了。</h1>
-    <p class="subtitle">16种无尽冬日玩家人格<br>50道题库随机抽20题，测测你的真实面目</p>
-    <button class="btn-start" onclick="startQuiz()">开始测试</button>
-    <div class="home-footer">
-      纯属娱乐 请勿上头
+  <div class="page active" id="pageHome">
+    <div class="home-card">
+      <h1>MBTI已经过时，<br>WJTI来了。</h1>
+      <button class="btn-start" onclick="startQuiz()">开始测试</button>
+      <div class="home-footer">
+        无尽冬日玩家人格测试<br>
+        从50道题库中随机抽取20题<br>
+        每次测试都是全新体验
+      </div>
     </div>
   </div>
 
   <!-- 答题页 -->
-  <div id="page-quiz">
-    <div class="card">
-      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-text"><span id="progressText">0 / 20</span></div>
-      <div id="questionArea"></div>
-      <button class="btn-next" id="btnNext" disabled onclick="nextQuestion()">下一题</button>
+  <div class="page" id="pageQuiz">
+    <div class="quiz-card">
+      <div class="prog-row">
+        <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+        <div class="prog-text" id="progText">0 / 20</div>
+      </div>
+      <div id="questionsContainer"></div>
+      <button class="btn-submit" id="btnSubmit" disabled onclick="submitQuiz()">提交答案</button>
     </div>
   </div>
 
   <!-- 结果页 -->
-  <div id="page-result">
-    <div class="card fade-in" id="resultCard"></div>
-    <div class="card fade-in" id="scoreCard"></div>
-    <div class="card fade-in" id="top3Card"></div>
-    <div class="card fade-in">
-      <button class="btn-share" onclick="shareResult()">分享结果</button>
+  <div class="page" id="pageResult">
+    <div class="result-top">
+      <div class="r-label">你的人格类型是：</div>
+      <div class="r-title" id="rTitle"></div>
+      <div class="r-subtitle" id="rCode"></div>
+      <div class="r-avatar" id="rAvatar"></div>
+      <div class="r-quote" id="rQuote"></div>
+    </div>
+    <div class="result-info">
+      <div class="ri-type">你的主类型</div>
+      <div class="ri-name" id="riName"></div>
+      <div class="ri-badge" id="riBadge"></div>
+      <div class="ri-desc" id="riDesc"></div>
+    </div>
+    <div class="result-detail">
+      <div class="rd-title">你的人格维度分布</div>
+      <div id="rBars"></div>
+    </div>
+    <div class="result-sub" id="resultSub" style="display:none">
+      <div class="rs-title">副人格</div>
+      <div class="rs-name" id="rsName"></div>
+      <div class="rs-desc" id="rsDesc"></div>
+    </div>
+    <div class="btn-row">
       <button class="btn-restart" onclick="restart()">重新测试</button>
     </div>
   </div>
-
 </div>
+<div class="tip-toast" id="tipToast"></div>
 
 <script>
-// ========== 16种玩家类型 ==========
-const TYPES = {
-  argue: {
-    name: "嗯炮强领主", code: "爱吵架",
-    desc: "嘴炮天花板，输出全靠吼，在无尽冬日生存全凭一张嘴。你的战斗力也许不是最强的，但你的发言永远是最响的。世界频道就是你的舞台，每一次对线都是一场即兴脱口秀。别人打架靠部队，你打架靠嘴。"
-  },
-  gossip: {
-    name: "村头条情报处主任", code: "爱吃瓜",
-    desc: "全服第一八卦通，哪个联盟撕逼、哪个大佬冲榜、哪个主播谈恋爱，比当事人还清楚。你的消息来源遍布全服，情报网络堪比CIA。你不一定参与战斗，但每一场战斗的前因后果你都门儿清。"
-  },
-  cp: {
-    name: "恋爱大师", code: "爱处CP",
-    desc: "世界频道能看到你的身影，到处cpdd，不关心联盟里纷纷扰扰和未来发展，只想处cp，看到漂亮妹妹或腹肌帅哥走不动道。你眼中的末日世界不是废土，是大型相亲现场。"
-  },
-  fight: {
-    name: "战争贩子", code: "爱打架",
-    desc: "精力旺盛的战斗狂魔，上线只为找人激情互殴，打不打得赢不重要，能动手绝不废话。你的快乐很简单——看到红点就想点，看到城就想烧。和平？和平是什么？能吃吗？"
-  },
-  hoard: {
-    name: "屯鼠", code: "爱囤物资",
-    desc: "把游戏玩成双十一国货人，看着仓库一格填满比打架还爽，属于囤完就有安全感的类型。你的资源多到溢出来，但你就是舍不得用。末日里什么最重要？当然是物资安全感！"
-  },
-  farm: {
-    name: "陶渊明", code: "爱种田",
-    desc: "采菊东篱下，悠然见冰原。自带归隐气质，一心种田，主打安稳度日。别人在打仗，你在种地；别人在吵架，你在浇水。你用行动证明了末日也可以岁月静好。"
-  },
-  spend: {
-    name: "撒币大师", code: "爱撒钱",
-    desc: "花钱从不抠搜，资源从不吝啬，主打一个豪爽大气。动不动就给联盟家人发红包，给大伙开仓放粮，国战报销军费。你不是在撒钱，你是在撒快乐。全服都想跟你做朋友。"
-  },
-  grind: {
-    name: "肝帝", code: "爱肝",
-    desc: "你的日活数据一个人拉高了整个服务器的平均值。零点上线零点下线，盟友怀疑你有三个人轮班。你的手机长年插着充电线，你的眼圈比矿子烧的煤还黑。你已经和这个游戏融为一体了。"
-  },
-  teach: {
-    name: "课代表", code: "爱发教程",
-    desc: "稀有的WJTI人格，全服行走的攻略百科，新活动新玩法研究得明明白白，热衷于整理干货、分享技巧，谁有不懂问他一句，直接给你讲得通透又好懂。你是服里的灯塔，照亮萌新前行的路。"
-  },
-  zen: {
-    name: "什么都与我无关", code: "佛系玩家",
-    desc: "随缘上线，佛系发育，不追排名不惹是非，安安静静做个透明人。你不是不在乎，你只是看透了。联盟吵架你不参与，国战打响你随缘去，排名掉了你无所谓。你是末日里的一股清流。"
-  },
-  manage: {
-    name: "牛马", code: "联盟管理",
-    desc: "没错无尽冬日天选打工人就是你了，别人在睡觉你在铺旗子，别人在cpdd你在给盟友发资源，每次国战跟对面谈和、分配区里资源、分配车头车身，大小事务都离不开你。你是联盟的脊梁骨。"
-  },
-  boss: {
-    name: "全盟霸总", code: "车头/霸总",
-    desc: "你不是盟主但你比盟主还像盟主。你上线的方式不是签到，是巡视。你的战力是全盟第一梯队，你的发言是全盟最终解释权。你说打谁就打谁，你说几点集合没人敢迟到。你是暴风雪里最大的那棵树——所有人都在你后面躲风。"
-  },
-  whale: {
-    name: "印钞机", code: "金球/大R",
-    desc: "超超超稀有的WJTI人格，氪金对于你来说已经不是多少的问题，而是哪里有需要哪里就有你。你上线不是来打游戏的，是来发资源的。你的背包是联盟的公共金库，你的钱包撑起了整个王国的战力天花板。"
-  },
-  tech: {
-    name: "六边形战士", code: "技术玩家",
-    desc: "全维度拉满，六边形无短板，拥有超强的游戏理解、游戏操作、策略思维和指挥能力。兵工厂、燃霜、国战、霜龙你战无不胜，你已经把TA的隐藏机制、最优搭配、伤害期望值全算明白了发在群里了。"
-  },
-  backseat: {
-    name: "赛后诸葛亮", code: "嘴硬",
-    desc: "你从不在战前发言，但战后复盘你永远第一个跳出来。\"我早就说了应该先打这里\"\"当时要是听我的早赢了\"——一问题是你当时什么都没说。你的语言条永远在结算页面之后才出现，你是联盟里的马后炮之王。"
-  },
-  alarm: {
-    name: "人形报警器", code: "报警器",
-    desc: "打架不一定行，但摇人速度永远第一。一挨打立刻全频道呼救，主打一个人多力量大。\"救命！有人打我！坐标XXX！\"是你的日常台词。你是全服最高效的预警系统，没有之一。"
-  }
+/* ========== 题库 50题 ========== */
+const bank=[
+{q:"打开无尽冬日，你的第一件事通常是？",o:[
+  {t:"看看世界频道今天谁又吵起来了",k:"爱吃瓜"},
+  {t:"直奔资源点，该采的采该屯的屯",k:"爱囤物资"},
+  {t:"打开联盟聊天，看看有没有需要处理的事",k:"联盟管理"},
+  {t:"先把日常任务刷一遍再说",k:"爱肝"}
+]},
+{q:"在无尽冬日里有人攻击你的城，你的反应是？",o:[
+  {t:"立刻全频道喊人来帮忙",k:"全服喊人"},
+  {t:"直接拉部队反打回去",k:"爱打架"},
+  {t:"无所谓，反正也没什么损失",k:"佛系"},
+  {t:"先截图发群里，等着看后续发展",k:"爱吃瓜"}
+]},
+{q:"无尽冬日更新了一个复杂的新玩法，你会？",o:[
+  {t:"第一时间研究透彻然后写攻略分享",k:"爱发教程"},
+  {t:"花几个小时反复测试每个细节数据",k:"技术玩家"},
+  {t:"等别人出攻略了再看",k:"佛系"},
+  {t:"在群里说\"这个机制我早就猜到了\"",k:"嘴硬"}
+]},
+{q:"你在无尽冬日里最常出没的地方是？",o:[
+  {t:"世界频道，哪里有热闹哪里就有我",k:"爱吵架"},
+  {t:"自己的城里，安安静静种田发展",k:"爱种田"},
+  {t:"战场前线，不打架浑身不舒服",k:"爱打架"},
+  {t:"联盟聊天，时刻关注盟友动态",k:"联盟管理"}
+]},
+{q:"无尽冬日联盟里来了个萌新，你会？",o:[
+  {t:"主动教ta怎么玩，从零开始手把手带",k:"爱发教程"},
+  {t:"看看ta头像好不好看，长得好看多聊两句",k:"爱处cp"},
+  {t:"无所谓，来去自由",k:"佛系"},
+  {t:"热情欢迎，赶紧拉进联盟大家庭",k:"招人"}
+]},
+{q:"在无尽冬日里氪金这件事，你的态度是？",o:[
+  {t:"一分钱不花，零氪也能玩得风生水起",k:"零氪"},
+  {t:"该花花，资源不够红包来凑，给盟友发就完了",k:"爱撒钱"},
+  {t:"适当投入，但要精打细算花在刀刃上",k:"技术玩家"},
+  {t:"直接充满，战力排名才是王道",k:"车头"}
+]},
+{q:"无尽冬日世界频道突然爆发骂战，你会？",o:[
+  {t:"立刻加入战局，嗷炮输出拉满",k:"爱吵架"},
+  {t:"搬好小板凳津津有味地围观截图",k:"爱吃瓜"},
+  {t:"关掉频道，跟我没关系",k:"佛系"},
+  {t:"发个红包让大家消消气",k:"爱撒钱"}
+]},
+{q:"你在无尽冬日的联盟国战中通常扮演什么角色？",o:[
+  {t:"冲锋在前的主力输出",k:"车头"},
+  {t:"在后方指挥分析，虽然打完才发言",k:"嘴硬"},
+  {t:"默默运送物资保障后勤",k:"爱囤物资"},
+  {t:"负责协调各方力量，安排人员调度",k:"联盟管理"}
+]},
+{q:"你的无尽冬日仓库状态是？",o:[
+  {t:"满满当当，什么都舍不得用",k:"爱囤物资"},
+  {t:"空空如也，全送给盟友了",k:"爱撒钱"},
+  {t:"精确计算过，每样资源刚好够用",k:"技术玩家"},
+  {t:"没注意过，随缘",k:"佛系"}
+]},
+{q:"如果无尽冬日有一对玩家在世界频道秀恩爱，你会？",o:[
+  {t:"疯狂磕cp，希望他们在一起",k:"爱处cp"},
+  {t:"觉得有点甜，默默围观",k:"爱吃瓜"},
+  {t:"无感，继续干自己的事",k:"佛系"},
+  {t:"\"别秀了，有这时间不如打架\"",k:"爱打架"}
+]},
+{q:"你在无尽冬日的账号数量是？",o:[
+  {t:"一个号足矣，专注发展",k:"爱种田"},
+  {t:"大号冲榜，小号种田，三号当间谍",k:"爱开小号"},
+  {t:"两三个号全在肝日常",k:"爱肝"},
+  {t:"就一个号，零氪玩家不整那么多",k:"零氪"}
+]},
+{q:"无尽冬日联盟要竞选盟主，你会？",o:[
+  {t:"主动站出来竞选，管理我最在行",k:"联盟管理"},
+  {t:"无所谓谁当，别影响我种田就行",k:"爱种田"},
+  {t:"在底下看热闹，分析各方势力",k:"爱吃瓜"},
+  {t:"直接开麦拉票：投我！",k:"爱吵架"}
+]},
+{q:"在无尽冬日的暴风雪来临前，你的备战方式是？",o:[
+  {t:"提前三天就开始囤资源和加速",k:"爱囤物资"},
+  {t:"研究最优策略，算好每一步时间节点",k:"技术玩家"},
+  {t:"到时候再说，佛系应对",k:"佛系"},
+  {t:"发联盟通告，组织全员备战",k:"联盟管理"}
+]},
+{q:"你在无尽冬日里收到一条联盟申请，你会？",o:[
+  {t:"看战力数据，够格就通过",k:"车头"},
+  {t:"先聊两句，看看人品性格",k:"招人"},
+  {t:"看头像和名字好不好看",k:"爱处cp"},
+  {t:"不管谁来都欢迎，人多力量大",k:"招人"}
+]},
+{q:"在无尽冬日的战斗结算页面，你最先看什么？",o:[
+  {t:"看自己的排名和伤害数据",k:"车头"},
+  {t:"分析整体战报，复盘哪里可以优化",k:"技术玩家"},
+  {t:"先发一句\"早就说了该这样打\"",k:"嘴硬"},
+  {t:"看都不看，反正赢了就行",k:"佛系"}
+]},
+{q:"你理想中的无尽冬日联盟氛围是？",o:[
+  {t:"每天热热闹闹，聊天吹水不停",k:"爱吵架"},
+  {t:"安静有序，各自发展互不打扰",k:"爱种田"},
+  {t:"组织严密，国战令行禁止",k:"联盟管理"},
+  {t:"人均颜值在线，联盟群全是帅哥美女",k:"颜值女"}
+]},
+{q:"无尽冬日服务器合服了，你的第一反应是？",o:[
+  {t:"又有新瓜可以吃了",k:"爱吃瓜"},
+  {t:"新服有没有强敌？来打一架",k:"爱打架"},
+  {t:"赶紧去新服世界频道招人",k:"招人"},
+  {t:"先把资源藏好，保护家底",k:"爱囤物资"}
+]},
+{q:"你在无尽冬日里的手机电量经常因为什么耗尽？",o:[
+  {t:"挂机种田肝日活太久了",k:"爱肝"},
+  {t:"一直在世界频道跟人对线",k:"爱吵架"},
+  {t:"反复刷新看有没有新八卦",k:"爱吃瓜"},
+  {t:"多开小号同时操作",k:"爱开小号"}
+]},
+{q:"无尽冬日盟友说\"我被围攻了\"，你的反应是？",o:[
+  {t:"立刻拉部队去支援",k:"爱打架"},
+  {t:"先在联盟频道发警报通知所有人",k:"全服喊人"},
+  {t:"问清楚情况，制定反击方案",k:"技术玩家"},
+  {t:"发个红包安慰一下",k:"爱撒钱"}
+]},
+{q:"如果无尽冬日有时装系统，你最期待什么？",o:[
+  {t:"能让我的角色更好看的皮肤",k:"颜值女"},
+  {t:"不花钱能获得的就行",k:"零氪"},
+  {t:"有战力加成的优先搞",k:"车头"},
+  {t:"无所谓，有没有都行",k:"佛系"}
+]},
+{q:"你在无尽冬日里发现了一个隐藏机制，你会？",o:[
+  {t:"写一篇详细攻略教所有人",k:"爱发教程"},
+  {t:"自己偷偷用，闷声发大财",k:"技术玩家"},
+  {t:"在世界频道高调宣布",k:"爱吵架"},
+  {t:"告诉联盟的人，但强调\"我早就知道了\"",k:"嘴硬"}
+]},
+{q:"无尽冬日联盟群里突然有人说要退盟，你会？",o:[
+  {t:"赶紧了解原因，尝试挽留",k:"联盟管理"},
+  {t:"\"走吧走吧，留不住人心\"",k:"佛系"},
+  {t:"立刻在底下分析前因后果",k:"爱吃瓜"},
+  {t:"\"退就退吧，资源留下\"",k:"爱囤物资"}
+]},
+{q:"你给自己在无尽冬日的定位是？",o:[
+  {t:"联盟的守护者，有我在就有安全感",k:"车头"},
+  {t:"自由的田园诗人，悠哉悠哉",k:"爱种田"},
+  {t:"社交达人，谁都认识",k:"招人"},
+  {t:"联盟的大管家，什么都操心",k:"联盟管理"}
+]},
+{q:"你在无尽冬日里最享受的时刻是？",o:[
+  {t:"把敌人打得落花流水",k:"爱打架"},
+  {t:"看到仓库资源爆满",k:"爱囤物资"},
+  {t:"磕到的cp发糖了",k:"爱处cp"},
+  {t:"攻略被很多人点赞收藏",k:"爱发教程"}
+]},
+{q:"你在无尽冬日里的社交范围是？",o:[
+  {t:"全服都认识我，我是世界频道的常客",k:"爱吵架"},
+  {t:"就联盟里的几个熟人",k:"爱种田"},
+  {t:"我在每个联盟都有人脉",k:"爱开小号"},
+  {t:"什么社交？我只管打架",k:"爱打架"}
+]},
+{q:"无尽冬日出了一个限时充值活动，你的态度是？",o:[
+  {t:"坚决不充，零氪信仰不能倒",k:"零氪"},
+  {t:"算一下性价比再决定",k:"技术玩家"},
+  {t:"充！还要给盟友也安排上",k:"爱撒钱"},
+  {t:"第一时间充满，这点钱不叫事",k:"金球"}
+]},
+{q:"你在无尽冬日的世界频道发言风格是？",o:[
+  {t:"高频输出，有理无理先喊三分",k:"爱吵架"},
+  {t:"基本不说话，偶尔冒个泡",k:"佛系"},
+  {t:"专门发攻略和教程链接",k:"爱发教程"},
+  {t:"在世界频道招人，不停刷屏",k:"招人"}
+]},
+{q:"无尽冬日联盟国战失败了，你的第一反应是？",o:[
+  {t:"\"我早说了不该这样打！\"",k:"嘴硬"},
+  {t:"无所谓，下次再来",k:"佛系"},
+  {t:"复盘分析，找出问题所在",k:"技术玩家"},
+  {t:"在频道发泄，找对方理论",k:"爱吵架"}
+]},
+{q:"你在无尽冬日里最经常做的事是？",o:[
+  {t:"种田采集升建筑",k:"爱种田"},
+  {t:"刷副本刷活动刷日常",k:"爱肝"},
+  {t:"泡在聊天频道看热闹",k:"爱吃瓜"},
+  {t:"管理联盟事务，处理各种问题",k:"联盟管理"}
+]},
+{q:"无尽冬日里有人送你一大笔资源，你会？",o:[
+  {t:"开心收下，存进仓库慢慢用",k:"爱囤物资"},
+  {t:"转手就送给更需要的盟友",k:"爱撒钱"},
+  {t:"婉拒，零氪的尊严不能丢",k:"零氪"},
+  {t:"收下并研究怎么最大化利用",k:"技术玩家"}
+]},
+{q:"你在无尽冬日里的上线时间是？",o:[
+  {t:"零点上线零点下线，全天候在线",k:"爱肝"},
+  {t:"有空就上，没空就不上",k:"佛系"},
+  {t:"固定时间上线，管理联盟事务",k:"联盟管理"},
+  {t:"随时在线，因为我有好几个号要照顾",k:"爱开小号"}
+]},
+{q:"无尽冬日里两个联盟发生冲突，你会？",o:[
+  {t:"搬好小板凳，边看边截图记录",k:"爱吃瓜"},
+  {t:"选一边加入战斗！",k:"爱打架"},
+  {t:"两边都有我的号",k:"爱开小号"},
+  {t:"跟我没关系，继续种我的田",k:"爱种田"}
+]},
+{q:"你对无尽冬日里的联盟红包怎么看？",o:[
+  {t:"我就是发红包的那个人",k:"爱撒钱"},
+  {t:"抢到一分钱也开心，零氪的快乐",k:"零氪"},
+  {t:"无所谓，有就领没有也行",k:"佛系"},
+  {t:"这个数额应该怎么分配最合理...",k:"技术玩家"}
+]},
+{q:"在无尽冬日里，你会因为什么跟人吵架？",o:[
+  {t:"不需要理由，吵就完事了",k:"爱吵架"},
+  {t:"有人说我分析得不对",k:"嘴硬"},
+  {t:"有人欺负我的盟友",k:"全服喊人"},
+  {t:"我从来不吵架",k:"佛系"}
+]},
+{q:"你在无尽冬日里的英雄养成方式是？",o:[
+  {t:"每个英雄都要练到满星，一个都不放过",k:"爱肝"},
+  {t:"只练核心英雄，精打细算资源分配",k:"零氪"},
+  {t:"研究最优搭配，隐藏机制都要摸清",k:"技术玩家"},
+  {t:"哪个好看练哪个",k:"颜值女"}
+]},
+{q:"你在无尽冬日最想要的称号是？",o:[
+  {t:"\"全服战力第一\"",k:"金球"},
+  {t:"\"最佳攻略作者\"",k:"爱发教程"},
+  {t:"\"人间清醒\"",k:"佛系"},
+  {t:"\"联盟之光\"",k:"车头"}
+]},
+{q:"无尽冬日里你的联盟成员被欺负了，你会？",o:[
+  {t:"立刻全频道通报敌情",k:"全服喊人"},
+  {t:"带队反攻，以暴制暴",k:"爱打架"},
+  {t:"先了解情况，有理有据地交涉",k:"联盟管理"},
+  {t:"发一波安慰红包",k:"爱撒钱"}
+]},
+{q:"你在无尽冬日世界频道看到两个玩家互动很亲密，你会？",o:[
+  {t:"疯狂磕cp！赶紧组织大家围观",k:"爱处cp"},
+  {t:"截图发群，新瓜新瓜！",k:"爱吃瓜"},
+  {t:"上去调侃两句凑热闹",k:"爱吵架"},
+  {t:"跟我有什么关系",k:"佛系"}
+]},
+{q:"无尽冬日新赛季开始，你的规划是？",o:[
+  {t:"制定详细发展路线图",k:"技术玩家"},
+  {t:"先冲战力，抢占排行榜",k:"车头"},
+  {t:"开几个新小号布局",k:"爱开小号"},
+  {t:"随缘发展，享受过程",k:"爱种田"}
+]},
+{q:"在无尽冬日里，你觉得最重要的是？",o:[
+  {t:"战力，实力说话",k:"车头"},
+  {t:"社交，认识好玩的人",k:"爱吃瓜"},
+  {t:"联盟团结，兄弟齐心",k:"联盟管理"},
+  {t:"自由自在，不被约束",k:"佛系"}
+]},
+{q:"无尽冬日里你的充值记录被盟友看到了，你会？",o:[
+  {t:"\"看吧，这就是我为联盟的付出\"",k:"金球"},
+  {t:"我没充过，怎么可能有记录",k:"零氪"},
+  {t:"无所谓，花自己的钱开心就好",k:"爱撒钱"},
+  {t:"赶紧转移话题",k:"颜值男"}
+]},
+{q:"你在无尽冬日联盟里的口头禅是？",o:[
+  {t:"\"有人打我！快来帮忙！\"",k:"全服喊人"},
+  {t:"\"我早就说过了吧\"",k:"嘴硬"},
+  {t:"\"随便，都行\"",k:"佛系"},
+  {t:"\"来来来，我教你\"",k:"爱发教程"}
+]},
+{q:"无尽冬日出了新英雄，你的反应是？",o:[
+  {t:"第一时间分析技能数值和搭配",k:"技术玩家"},
+  {t:"先看颜值，好看就抽",k:"颜值女"},
+  {t:"等零氪途径能获得再说",k:"零氪"},
+  {t:"写一篇新手向获取指南分享出去",k:"爱发教程"}
+]},
+{q:"在无尽冬日的集结战中，你通常？",o:[
+  {t:"当带队车头，集结我来开",k:"车头"},
+  {t:"报名参加，听指挥行动",k:"爱肝"},
+  {t:"默默运送增援物资",k:"爱囤物资"},
+  {t:"战后发表精彩点评",k:"嘴硬"}
+]},
+{q:"你在无尽冬日里最怕听到什么？",o:[
+  {t:"\"联盟解散了\"",k:"联盟管理"},
+  {t:"\"你的资源被掠夺了\"",k:"爱囤物资"},
+  {t:"\"XX和XX分手了\"",k:"爱处cp"},
+  {t:"\"服务器维护中\"",k:"爱肝"}
+]},
+{q:"你会怎么处理无尽冬日里多余的资源？",o:[
+  {t:"不存在多余的资源，全部囤起来",k:"爱囤物资"},
+  {t:"发红包撒给大家",k:"爱撒钱"},
+  {t:"分配给联盟里最需要的人",k:"联盟管理"},
+  {t:"什么多余的资源？零氪玩家资源永远不够",k:"零氪"}
+]},
+{q:"你觉得自己在无尽冬日里是什么角色？",o:[
+  {t:"联盟的灵魂人物，少了我不行",k:"车头"},
+  {t:"安静的建设者，默默发展",k:"爱种田"},
+  {t:"情报中心，什么八卦我都知道",k:"爱吃瓜"},
+  {t:"人才猎头，看到好苗子就想拉进来",k:"招人"}
+]},
+{q:"你退出一个无尽冬日联盟的原因可能是？",o:[
+  {t:"管理太乱，受不了",k:"联盟管理"},
+  {t:"没人跟我聊天，太无聊了",k:"颜值男"},
+  {t:"被打了没人帮，太寒心",k:"全服喊人"},
+  {t:"无所谓，换个地方玩玩也好",k:"佛系"}
+]},
+{q:"如果无尽冬日要拍一部纪录片，你想扮演什么角色？",o:[
+  {t:"幕后大佬，运筹帷幄的王国大金主",k:"金球"},
+  {t:"战场解说员，\"我当时就说了要这样打\"",k:"嘴硬"},
+  {t:"恋爱观察员，记录每一对cp的甜蜜故事",k:"爱处cp"},
+  {t:"生存专家，展示如何零氪也能称霸",k:"零氪"}
+]},
+{q:"你希望别人在无尽冬日里怎么评价你？",o:[
+  {t:"\"这人战力恐怖，全盟靠ta扛\"",k:"车头"},
+  {t:"\"有ta在，联盟运转得明明白白\"",k:"联盟管理"},
+  {t:"\"ta的攻略救了无数萌新\"",k:"爱发教程"},
+  {t:"\"ta好好看啊，想加ta联盟\"",k:"颜值女"}
+]}
+];
+
+/* ========== 21种人格数据 ========== */
+const profiles={
+"爱吵架":{title:"嗷炮强领主",code:"WJTI-CJ",emoji:"📣",color:"#e74c3c",
+  quote:"在无尽冬日，输出全靠一张嘴。",
+  desc:"嗷炮天花板，输出全靠吼，在无尽冬日的生存全凭一张嘴。你的键盘就是你的武器，世界频道是你的主场。论打字速度和辩论技巧，全服没几个人是你对手。虽然有时候吵完也不记得在吵什么，但过程很快乐就够了。"},
+"爱吃瓜":{title:"村头情报处主任",code:"WJTI-CG",emoji:"🍉",color:"#27ae60",
+  quote:"我不制造新闻，我只是新闻的搬运工。",
+  desc:"全服第一八卦通，哪个联盟撕逼、哪个大佬冲榜、哪个主播恋爱，比当事人还清楚。你不制造新闻，你只是新闻的搬运工——一个非常高效的搬运工。你的截图文件夹比别人的游戏安装包还大。"},
+"爱处cp":{title:"恋爱大师",code:"WJTI-CP",emoji:"💕",color:"#e91e63",
+  quote:"末日里最温暖的，不是火炉，是爱情。",
+  desc:"世界频道能看到你的身影，到处cpdd，不关心联盟里纷纷和未来发展，只想处cp，看到漂亮妹妹或腹肌帅哥走不动道。在你眼里无尽冬日就是一个大型恋爱模拟器。"},
+"爱打架":{title:"战争贩子",code:"WJTI-DJ",emoji:"⚔️",color:"#c0392b",
+  quote:"和平？不存在的。上线只为找人打。",
+  desc:"精力旺盛的战斗狂魔，上线只为找人激情互殴，不打不舒服斯基，能动手绝不废话。你的战争日志比别人的种田日志还长，全服都知道——惹谁都别惹你。"},
+"爱囤物资":{title:"屯鼠",code:"WJTI-DW",emoji:"📦",color:"#e67e22",
+  quote:"万一以后要用呢？先囤着准没错。",
+  desc:"把游戏玩成双十一国货人，看着仓库一格格填满比打架还爽，属于国完就有安全感的类型。你的仓库永远是满的，你的安全感来自于那些堆成山的资源。"},
+"爱种田":{title:"陶渊明",code:"WJTI-ZT",emoji:"🌾",color:"#2ecc71",
+  quote:"采菊东篱下，悠然见冰原。",
+  desc:"采菊东篱下，悠然见冰原。自带归隐气质，一心种田，主打安稳度日。你在末日里开辟了一片世外桃源，种田、采集、升建筑，岁月静好与你同在。战争？什么战争？我的麦子熟了。"},
+"爱撒钱":{title:"撒币大师",code:"WJTI-SQ",emoji:"💰",color:"#f1c40f",
+  quote:"花钱从不手软，资源从不吝啬。",
+  desc:"花钱从不手软，资源从不吝啬，主打一个豪爽大气，动不动就给联盟家人发红包，给大伙开仓放军费。你就是联盟里的财神爷，大家都爱你。"},
+"爱发教程":{title:"课代表",code:"WJTI-JC",emoji:"📖",color:"#3498db",
+  quote:"看我攻略，少走十年弯路。",
+  desc:"稀有的WJTI人格，全服行走的攻略百科，新活动新玩法研究得明明白白，热衷于整理干货、分享技巧，谁有不懂问他一句，直接给你讲得通透又好懂。你可能不是最强的，但你一定是最有用的。"},
+"爱开小号":{title:"分身大师",code:"WJTI-XH",emoji:"🎭",color:"#9b59b6",
+  quote:"每个服务器，都有我的房产。",
+  desc:"大号冲榜、小号种田、三号当间谍、四号处cp，一个人就是一支军队。你把多开玩成了一门艺术，别人只有一个家，你在每个服务器都有房产。"},
+"全服喊人":{title:"人形报警器",code:"WJTI-BJ",emoji:"🚨",color:"#e74c3c",
+  quote:"兄弟们！有人打我！全频道集合！",
+  desc:"打架不一定行，但喊人速度永远第一，一挨打立刻全频道呼救，主打一个人力量大。你的求救信号覆盖全服，虽然有时候喊来的人比敌人还多，但这不重要——团结就是力量。"},
+"佛系":{title:"佛系玩家",code:"WJTI-FX",emoji:"☁️",color:"#95a5a6",
+  quote:"我说随便，是真的随便。",
+  desc:"随缘上线，佛系发育，不追排名不惹是非，安安静静做个透明人。被打了不生气，发育慢也不急，联盟吵架你旁观。你是冬日里最通透的人，已经提前悟道了。"},
+"联盟管理":{title:"牛马管理",code:"WJTI-GL",emoji:"🐂",color:"#34495e",
+  quote:"没错无尽冬日天选打工人就是你。",
+  desc:"没错无尽冬日天选打工人就是你了，别人在睡觉你在铺旗子，别人在cpdd你在给盟友发资源，每次国战跟对面谈和、分配区里资源、分配车头车身，大小事务都离不开你。"},
+"零氪":{title:"零氪不掉者",code:"WJTI-LK",emoji:"💎",color:"#1abc9c",
+  quote:"能白嫖绝不花钱，这是信仰。",
+  desc:"零氪零氖，别人零氖就氖，你零氖也不氖，主打一分钱也不花，别想从老子兜里拿走一分。你是零氪界的天花板，免费资源一个不漏，你证明了不花钱照样能活得很好。"},
+"车头":{title:"联盟霸总",code:"WJTI-CT",emoji:"👑",color:"#8e44ad",
+  quote:"听我的，准没错。这个联盟我说了算。",
+  desc:"你不是盟主但你比盟主还像盟主。你上线的方式不是签到，是巡视。你的战力是全盟第一梯队，你的发言是全盟最终解释权。你天生就是当领导的料。"},
+"金球":{title:"王国印钞机",code:"WJTI-JQ",emoji:"💵",color:"#f39c12",
+  quote:"氖金对我来说不是多少的问题，而是哪里有需要。",
+  desc:"超超超稀有的WJTI人格。你的背包是联盟的公共金库，你的充值记录是全服的GDP。你一个人养活了整个王国的发展，你的钱包撑起了全服的战力天花板。你为什么这么大方？因为你根本不在乎这点钱。"},
+"颜值女":{title:"刘亦菲",code:"WJTI-YN",emoji:"👸",color:"#e84393",
+  quote:"一发言全盟安静三秒，不是因为说了什么，是因为太好看了。",
+  desc:"你一发言全联盟安静三秒，不是因为你战力高，是因为你头像太好看大家在偷偷截图。你的联盟申请从来没被拒绝过，你可能不太会玩，但没关系——这个游戏需要你。"},
+"颜值男":{title:"吴彦祖",code:"WJTI-YM",emoji:"🤴",color:"#6c5ce7",
+  quote:"一开麦全联盟群心率飙升。",
+  desc:"你一开麦全联盟群心率飙升，低音炮配一句\"我来了\"直接让三个女盟友排线。你的队伍永远是满的，而且永远有人主动给你递资源。你从来不用求人上车，因为你说\"我先下了\"的时候在线人数直接翻倍。"},
+"技术玩家":{title:"六边形战士",code:"WJTI-JS",emoji:"🔷",color:"#2980b9",
+  quote:"别人还在问\"这个英雄怎么用\"，我已经把隐藏机制摸清了。",
+  desc:"稀有的WJTI人格，全维度拉满，六边形无短板，拥有超强的游戏理解、游戏操作、策略思维和指挥能力。你已经把每个英雄的隐藏机制、最优搭配、伤害期望值全算明白了。"},
+"嘴硬":{title:"赛后诸葛亮",code:"WJTI-ZY",emoji:"🪭",color:"#d35400",
+  quote:"我早就说了应该先打这里！\"——当时要是听我的就赢了。",
+  desc:"你从不在战前发言，但战后复盘你永远第一个跳出来。你的语言条永远在结算页面之后才出现，你的战术分析永远精准地迟到30分钟。你是联盟里的事后军师、马后炮之王。"},
+"招人":{title:"联盟HR",code:"WJTI-ZR",emoji:"📋",color:"#16a085",
+  quote:"天天在世界频道挖人，把招人当成正经工作。",
+  desc:"联盟专业招人小能手，天天在世界频道挖人、拉萌新、搞招募，擅长忽悠（不是）说服大佬入伙，把招人当成正经工作，联盟人口全靠你一手撑起。"},
+"爱肝":{title:"肝帝",code:"WJTI-GD",emoji:"⚡",color:"#e67e22",
+  quote:"你的日活数据一个人拉高了整个服务器的平均值。",
+  desc:"你的日活数据一个人拉高了整个服务器的平均值。你零点上线零点下线，盟友怀疑你有三个人轮班。你的手机长年插着充电线，你的眼圈比炉子烧的煤还黑。你已经和这个游戏融为一体了。"}
 };
 
-// ========== 50道题库 ==========
-const ALL_QUESTIONS = [
-  {
-    q: "世界频道有人在吵架，你的第一反应是？",
-    opts: [
-      { text: "立刻加入战场，用嘴把对面说到自闭", scores: { argue: 3 } },
-      { text: "搬好小板凳，默默截图存档", scores: { gossip: 3 } },
-      { text: "完全无视，继续做自己的事", scores: { zen: 3 } }
-    ]
-  },
-  {
-    q: "联盟被敌对联盟偷袭了，你会？",
-    opts: [
-      { text: "第一时间在频道发坐标喊人来救", scores: { alarm: 3 } },
-      { text: "默默集结部队开始反击", scores: { fight: 3 } },
-      { text: "打开联盟群看看大家什么反应", scores: { gossip: 2, zen: 1 } }
-    ]
-  },
-  {
-    q: "你获得了一大批资源奖励，你会？",
-    opts: [
-      { text: "全部存进仓库，一点都舍不得用", scores: { hoard: 3 } },
-      { text: "给联盟的兄弟们分一分", scores: { spend: 3 } },
-      { text: "该用就用，该花就花", scores: { zen: 1, grind: 2 } }
-    ]
-  },
-  {
-    q: "新版本更新了一个复杂的新玩法，你会？",
-    opts: [
-      { text: "第一时间研究透彻，然后写攻略分享给大家", scores: { teach: 3 } },
-      { text: "自己默默研究出最优解", scores: { tech: 3 } },
-      { text: "等别人出攻略了再看", scores: { zen: 2, gossip: 1 } }
-    ]
-  },
-  {
-    q: "有人在联盟群里CPDD，你的反应？",
-    opts: [
-      { text: "我也CPDD！有没有人处对象！", scores: { cp: 3 } },
-      { text: "吃瓜！快说说是谁和谁", scores: { gossip: 3 } },
-      { text: "跟我有什么关系", scores: { zen: 2, fight: 1 } }
-    ]
-  },
-  {
-    q: "国战开始前，你在做什么？",
-    opts: [
-      { text: "在群里协调分工、分配路线", scores: { manage: 3 } },
-      { text: "检查自己的部队编组和装备", scores: { tech: 2, fight: 1 } },
-      { text: "问一句\"几点开打？\"然后继续种田", scores: { farm: 2, zen: 1 } }
-    ]
-  },
-  {
-    q: "你最有成就感的时刻是？",
-    opts: [
-      { text: "仓库资源全满的那一刻", scores: { hoard: 3 } },
-      { text: "把对手打到求和的那一刻", scores: { fight: 2, boss: 1 } },
-      { text: "有人说\"谢谢你的攻略太有用了\"", scores: { teach: 3 } }
-    ]
-  },
-  {
-    q: "如果游戏要关服了，你最舍不得的是？",
-    opts: [
-      { text: "我囤了那么多资源白囤了", scores: { hoard: 3 } },
-      { text: "再也见不到盟友们了", scores: { manage: 1, cp: 2 } },
-      { text: "无所谓，下一个游戏见", scores: { zen: 3 } }
-    ]
-  },
-  {
-    q: "你对联盟管理事务的态度是？",
-    opts: [
-      { text: "我就是那个干活的人", scores: { manage: 3 } },
-      { text: "有人管就行，我负责打架", scores: { fight: 2, boss: 1 } },
-      { text: "管理是什么？能吃吗？", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "有人问你游戏怎么玩，你会？",
-    opts: [
-      { text: "从零开始手把手教，恨不得出个系列教程", scores: { teach: 3 } },
-      { text: "丢一句\"自己百度\"", scores: { argue: 1, zen: 2 } },
-      { text: "给他讲重点，但讲完发现自己说了半小时", scores: { tech: 2, teach: 1 } }
-    ]
-  },
-  {
-    q: "你理想中的末日生活是？",
-    opts: [
-      { text: "有一块自己的田，安安静静种东西", scores: { farm: 3 } },
-      { text: "带着兄弟们四处征战", scores: { fight: 2, boss: 1 } },
-      { text: "找个好看的人一起末日约会", scores: { cp: 3 } }
-    ]
-  },
-  {
-    q: "你在联盟里的存在感属于？",
-    opts: [
-      { text: "不说话没人知道你在，一说话全场安静", scores: { boss: 3 } },
-      { text: "天天冒泡，群里最活跃的人", scores: { argue: 2, gossip: 1 } },
-      { text: "潜水选手，但关键时刻会出现", scores: { tech: 2, zen: 1 } }
-    ]
-  },
-  {
-    q: "你对氪金的态度是？",
-    opts: [
-      { text: "该花花，不眨眼", scores: { whale: 3 } },
-      { text: "精打细算，只买性价比最高的", scores: { tech: 1, hoard: 2 } },
-      { text: "零氪也能玩得很好", scores: { grind: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "联盟群里有人闹矛盾，你会？",
-    opts: [
-      { text: "两边都劝一劝，大事化小", scores: { manage: 3 } },
-      { text: "我来评评理，到底谁对谁错", scores: { argue: 2, backseat: 1 } },
-      { text: "精彩！截图收藏", scores: { gossip: 3 } }
-    ]
-  },
-  {
-    q: "你刚上线打开游戏，第一件事是？",
-    opts: [
-      { text: "收资源、做日常、清体力", scores: { grind: 3 } },
-      { text: "看看世界频道有什么新鲜事", scores: { gossip: 2, argue: 1 } },
-      { text: "看看联盟有没有什么需要处理的", scores: { manage: 2, boss: 1 } }
-    ]
-  },
-  {
-    q: "你对排行榜的态度是？",
-    opts: [
-      { text: "冲就完了，排名就是面子", scores: { grind: 2, whale: 1 } },
-      { text: "看看别人多少分，分析一下数据", scores: { tech: 2, gossip: 1 } },
-      { text: "排名跟我有什么关系", scores: { zen: 3 } }
-    ]
-  },
-  {
-    q: "打完一场大型国战，你在群里会说什么？",
-    opts: [
-      { text: "\"我早就说了应该先打那个点\"", scores: { backseat: 3 } },
-      { text: "发战报数据，分析本次战斗表现", scores: { tech: 2, teach: 1 } },
-      { text: "\"啊刚才打了吗？我在种田\"", scores: { farm: 2, zen: 1 } }
-    ]
-  },
-  {
-    q: "你在游戏里交朋友的方式是？",
-    opts: [
-      { text: "世界频道到处聊天认识人", scores: { cp: 2, argue: 1 } },
-      { text: "一起打架打出来的感情", scores: { fight: 2, alarm: 1 } },
-      { text: "默默给联盟做贡献，日久见人心", scores: { manage: 2, grind: 1 } }
-    ]
-  },
-  {
-    q: "有人偷了你的资源矿，你会？",
-    opts: [
-      { text: "立刻反击打回来，加倍奉还", scores: { fight: 3 } },
-      { text: "在频道公开点名批评", scores: { argue: 2, alarm: 1 } },
-      { text: "算了，地球上矿多的是", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "你觉得游戏里最重要的是什么？",
-    opts: [
-      { text: "社交关系，认识各种有趣的人", scores: { cp: 2, gossip: 1 } },
-      { text: "战略和技术，做到最强", scores: { tech: 2, fight: 1 } },
-      { text: "开心就好，不必太认真", scores: { zen: 3 } }
-    ]
-  },
-  {
-    q: "联盟要选新的管理层，你会？",
-    opts: [
-      { text: "毛遂自荐，这活我来干", scores: { manage: 2, boss: 1 } },
-      { text: "推荐一个合适的人选", scores: { gossip: 1, tech: 1, teach: 1 } },
-      { text: "谁干都行，别选我就好", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "半夜三点你还在玩游戏，因为？",
-    opts: [
-      { text: "日常没做完，必须肝完再睡", scores: { grind: 3 } },
-      { text: "在世界频道跟人聊嗨了", scores: { argue: 1, cp: 2 } },
-      { text: "国战时间定在凌晨，没办法", scores: { fight: 1, manage: 2 } }
-    ]
-  },
-  {
-    q: "你怎么看待联盟里的\"咸鱼\"成员？",
-    opts: [
-      { text: "该踢就踢，不能养闲人", scores: { boss: 3 } },
-      { text: "有空带一带，教他们怎么玩", scores: { teach: 2, manage: 1 } },
-      { text: "我可能就是那个咸鱼", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "你最常在世界频道干什么？",
-    opts: [
-      { text: "跟人对喷", scores: { argue: 3 } },
-      { text: "发招聘广告招人", scores: { manage: 1, alarm: 2 } },
-      { text: "潜水看热闹", scores: { gossip: 2, zen: 1 } }
-    ]
-  },
-  {
-    q: "你在游戏里给自己定的目标是？",
-    opts: [
-      { text: "成为全服最强", scores: { whale: 1, grind: 2 } },
-      { text: "带联盟走向辉煌", scores: { boss: 2, manage: 1 } },
-      { text: "没什么目标，随便玩玩", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "看到联盟有人的阵容搭配不对，你会？",
-    opts: [
-      { text: "详细分析并给出最优方案", scores: { tech: 3 } },
-      { text: "等他输了再说\"我之前就觉得你搭配有问题\"", scores: { backseat: 3 } },
-      { text: "不关我事，各玩各的", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "联盟组织活动你报名吗？",
-    opts: [
-      { text: "不用报名，我就是组织者", scores: { manage: 3 } },
-      { text: "看看活动内容再说", scores: { tech: 1, zen: 1, gossip: 1 } },
-      { text: "有红包就去", scores: { spend: 1, hoard: 2 } }
-    ]
-  },
-  {
-    q: "你最怕游戏里遇到什么事？",
-    opts: [
-      { text: "资源被抢光", scores: { hoard: 3 } },
-      { text: "被全服公开处刑丢脸", scores: { argue: 1, cp: 2 } },
-      { text: "日常忘做了", scores: { grind: 3 } }
-    ]
-  },
-  {
-    q: "你在联盟里的外号最可能是？",
-    opts: [
-      { text: "\"大喇叭\"或\"话痨\"", scores: { argue: 2, alarm: 1 } },
-      { text: "\"定海神针\"或\"扛把子\"", scores: { boss: 2, tech: 1 } },
-      { text: "\"隐形人\"或\"佛祖\"", scores: { zen: 3 } }
-    ]
-  },
-  {
-    q: "别人送你一个游戏礼包，你会？",
-    opts: [
-      { text: "感动！记下来以后加倍还", scores: { spend: 2, manage: 1 } },
-      { text: "存着，以后用得上", scores: { hoard: 3 } },
-      { text: "转手送给更需要的盟友", scores: { spend: 3 } }
-    ]
-  },
-  {
-    q: "联盟和平期你在做什么？",
-    opts: [
-      { text: "种田发育，囤积战备物资", scores: { farm: 2, hoard: 1 } },
-      { text: "四处找人切磋练手", scores: { fight: 3 } },
-      { text: "在频道水群聊天", scores: { cp: 1, gossip: 2 } }
-    ]
-  },
-  {
-    q: "你怎么看待游戏里的\"外交\"？",
-    opts: [
-      { text: "外交是我的强项，靠谈就能解决", scores: { boss: 2, manage: 1 } },
-      { text: "谈什么谈，打就完了", scores: { fight: 3 } },
-      { text: "让管理层去搞，我只负责执行", scores: { grind: 1, tech: 1, zen: 1 } }
-    ]
-  },
-  {
-    q: "你看到有个新人在发求助消息，你会？",
-    opts: [
-      { text: "拉进联盟慢慢教", scores: { teach: 2, manage: 1 } },
-      { text: "发个攻略链接给他", scores: { teach: 1, zen: 2 } },
-      { text: "观察一下他的潜力再决定", scores: { boss: 2, tech: 1 } }
-    ]
-  },
-  {
-    q: "你的游戏截图里最多的是？",
-    opts: [
-      { text: "战斗胜利的截图", scores: { fight: 2, tech: 1 } },
-      { text: "各种八卦聊天记录", scores: { gossip: 3 } },
-      { text: "自己的基地全景或资源截图", scores: { farm: 2, hoard: 1 } }
-    ]
-  },
-  {
-    q: "你在游戏里最不能忍受的是？",
-    opts: [
-      { text: "有人在背后说我坏话", scores: { argue: 2, alarm: 1 } },
-      { text: "明明能赢的仗打输了", scores: { tech: 1, backseat: 2 } },
-      { text: "没事打扰我种田", scores: { farm: 3 } }
-    ]
-  },
-  {
-    q: "如果你是联盟之主，第一件事做什么？",
-    opts: [
-      { text: "制定联盟规则，谁不遵守踢谁", scores: { boss: 3 } },
-      { text: "先发一波红包收买人心", scores: { spend: 2, whale: 1 } },
-      { text: "我不想当盟主，太累了", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "联盟国战前的集结号吹响了，你？",
-    opts: [
-      { text: "秒到！战力拉满等开打", scores: { fight: 2, grind: 1 } },
-      { text: "帮忙统计到场人数和分配战术", scores: { manage: 3 } },
-      { text: "看到了但有点犹豫要不要去", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "你的好友列表里大多是？",
-    opts: [
-      { text: "各个联盟的情报来源", scores: { gossip: 3 } },
-      { text: "一起打过仗的战友", scores: { fight: 2, manage: 1 } },
-      { text: "几个关系特别好的小圈子", scores: { cp: 2, teach: 1 } }
-    ]
-  },
-  {
-    q: "有人夸你游戏打得好，你内心是？",
-    opts: [
-      { text: "那必须的！想听我详细分析一下不？", scores: { backseat: 2, tech: 1 } },
-      { text: "谢谢！你也可以，我教你", scores: { teach: 3 } },
-      { text: "嘿嘿，运气好而已", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "你最享受的游戏时光是？",
-    opts: [
-      { text: "一个人安静肝日常", scores: { grind: 2, farm: 1 } },
-      { text: "跟一群人热热闹闹地聊天打架", scores: { fight: 1, argue: 1, cp: 1 } },
-      { text: "研究新策略和搭配的时候", scores: { tech: 3 } }
-    ]
-  },
-  {
-    q: "别人形容你是\"XX控\"，最可能是？",
-    opts: [
-      { text: "资源控/囤积控", scores: { hoard: 3 } },
-      { text: "颜值控/CP控", scores: { cp: 3 } },
-      { text: "数据控/细节控", scores: { tech: 3 } }
-    ]
-  },
-  {
-    q: "你觉得游戏里花钱多的人？",
-    opts: [
-      { text: "太棒了！有大佬罩着安全感满满", scores: { whale: 1, hoard: 2 } },
-      { text: "我也想花但钱包不允许", scores: { grind: 2, cp: 1 } },
-      { text: "有钱人的快乐就是这么朴实无华", scores: { whale: 3 } }
-    ]
-  },
-  {
-    q: "联盟里有人要退盟了，你会？",
-    opts: [
-      { text: "赶紧去了解情况，看能不能留住", scores: { manage: 3 } },
-      { text: "挖一下他退盟的原因和八卦", scores: { gossip: 3 } },
-      { text: "来去自由，不强留", scores: { zen: 2, boss: 1 } }
-    ]
-  },
-  {
-    q: "游戏里你最大的消费是？",
-    opts: [
-      { text: "充值买了最贵的礼包", scores: { whale: 3 } },
-      { text: "时间！我花的时间比钱多", scores: { grind: 3 } },
-      { text: "感情，在这里交到了真朋友", scores: { cp: 2, manage: 1 } }
-    ]
-  },
-  {
-    q: "你的手机通知栏最常弹出的是？",
-    opts: [
-      { text: "\"你的城池正在被攻击！\"", scores: { alarm: 2, fight: 1 } },
-      { text: "联盟群消息999+", scores: { gossip: 1, manage: 2 } },
-      { text: "\"你的资源已满，请及时收取\"", scores: { farm: 2, hoard: 1 } }
-    ]
-  },
-  {
-    q: "你觉得自己在联盟里的角色像什么？",
-    opts: [
-      { text: "老板/CEO", scores: { boss: 3 } },
-      { text: "后勤大管家", scores: { manage: 2, spend: 1 } },
-      { text: "编外人员/临时工", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "你打开游戏的频率是？",
-    opts: [
-      { text: "一天不知道要打开多少次", scores: { grind: 3 } },
-      { text: "固定时间上线处理事务", scores: { manage: 2, tech: 1 } },
-      { text: "有空就看看，没空就算了", scores: { zen: 3 } }
-    ]
-  },
-  {
-    q: "联盟喊你去打架但你正在忙，你会？",
-    opts: [
-      { text: "放下一切冲过去", scores: { fight: 2, alarm: 1 } },
-      { text: "先问清楚情况再决定", scores: { tech: 1, backseat: 2 } },
-      { text: "发消息说\"在忙，你们先打\"", scores: { zen: 2, farm: 1 } }
-    ]
-  },
-  {
-    q: "你最想对你的联盟说什么？",
-    opts: [
-      { text: "\"都听我的就完了\"", scores: { boss: 3 } },
-      { text: "\"大家开心就好\"", scores: { zen: 1, spend: 1, cp: 1 } },
-      { text: "\"攻略我已经整理好了发群里了\"", scores: { teach: 3 } }
-    ]
-  }
-];
+/* ========== 逻辑 ========== */
+const TOTAL=20;
+let picked=[];
+let answers={};
 
-// ========== 维度定义 ==========
-const DIMENSIONS = [
-  { key: "social", name: "社交活跃度", types: ["argue", "gossip", "cp", "alarm"], icon: "💬" },
-  { key: "combat", name: "战斗倾向", types: ["fight", "boss", "alarm"], icon: "⚔️" },
-  { key: "resource", name: "资源执着度", types: ["hoard", "spend", "whale"], icon: "💰" },
-  { key: "dedication", name: "肝度", types: ["grind", "tech", "manage"], icon: "🔥" },
-  { key: "leadership", name: "领导力", types: ["boss", "manage", "teach"], icon: "👑" },
-  { key: "chill", name: "佛系指数", types: ["zen", "farm"], icon: "🧘" }
-];
+function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 
-// ========== 游戏逻辑 ==========
-let currentQuestions = [];
-let currentIndex = 0;
-let scores = {};
-let selectedOption = -1;
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
 
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+function startQuiz(){
+  picked=shuffle(bank).slice(0,TOTAL);
+  answers={};
+  renderQuestions();
+  showPage('pageQuiz');
+  updateProgress();
 }
 
-function startQuiz() {
-  // 随机抽20题
-  currentQuestions = shuffle(ALL_QUESTIONS).slice(0, 20);
-  currentIndex = 0;
-  scores = {};
-  Object.keys(TYPES).forEach(k => scores[k] = 0);
-  selectedOption = -1;
-
-  document.getElementById("page-home").style.display = "none";
-  document.getElementById("page-quiz").style.display = "block";
-  document.getElementById("page-result").style.display = "none";
-
-  renderQuestion();
+function renderQuestions(){
+  const c=document.getElementById('questionsContainer');
+  c.innerHTML='';
+  picked.forEach((q,i)=>{
+    const opts=shuffle(q.o);
+    const letters=['A','B','C','D'];
+    let optsHtml=opts.map((o,j)=>`
+      <div class="opt-item" data-qi="${i}" data-oi="${j}" data-k="${o.k}" onclick="selectOpt(this)">
+        <div class="opt-radio"></div>
+        <span class="opt-letter">${letters[j]}</span>
+        <span class="opt-content">${o.t}</span>
+      </div>`).join('');
+    c.innerHTML+=`
+      <div class="q-block" id="qb${i}">
+        <div class="q-head">
+          <span class="q-num">第 ${i+1} 题</span>
+          <span class="q-dim">维度已隐藏</span>
+        </div>
+        <div class="q-text">${q.q}</div>
+        <div class="opt-list">${optsHtml}</div>
+      </div>`;
+  });
 }
 
-function renderQuestion() {
-  const q = currentQuestions[currentIndex];
-  const area = document.getElementById("questionArea");
-  const letters = ["A", "B", "C"];
+function selectOpt(el){
+  const qi=el.dataset.qi;
+  const k=el.dataset.k;
+  // 清除同题其他选中
+  document.querySelectorAll(`.opt-item[data-qi="${qi}"]`).forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[qi]=k;
+  document.getElementById('qb'+qi).classList.add('answered');
+  updateProgress();
+}
 
-  let html = `<div class="question-card fade-in">
-    <span class="question-num">第 ${currentIndex + 1} 题</span>
-    <div class="question-text">${q.q}</div>`;
+function updateProgress(){
+  const n=Object.keys(answers).length;
+  document.getElementById('progText').textContent=`${n} / ${TOTAL}`;
+  document.getElementById('progFill').style.width=`${(n/TOTAL)*100}%`;
+  document.getElementById('btnSubmit').disabled=(n<TOTAL);
+}
 
-  q.opts.forEach((opt, i) => {
-    html += `<div class="option" onclick="selectOption(${i})" id="opt-${i}">
-      <div class="option-letter">${letters[i]}</div>
-      <div class="option-text">${opt.text}</div>
+function toast(msg){
+  const t=document.getElementById('tipToast');
+  t.textContent=msg;t.style.display='block';
+  setTimeout(()=>{t.style.display='none'},2000);
+}
+
+function submitQuiz(){
+  if(Object.keys(answers).length<TOTAL){toast('请回答完所有题目');return}
+  // 统计
+  const scores={};
+  Object.values(answers).forEach(k=>{scores[k]=(scores[k]||0)+1});
+  const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const top=sorted[0];
+  const topKey=top[0];
+  const topCount=top[1];
+  const pct=Math.round((topCount/TOTAL)*100);
+  const p=profiles[topKey];
+  if(!p){toast('结果计算异常');return}
+
+  // 填充结果
+  document.getElementById('rTitle').textContent=p.title;
+  document.getElementById('rCode').textContent=p.code;
+  document.getElementById('rAvatar').textContent=p.emoji;
+  document.getElementById('rAvatar').style.background=p.color+'22';
+  document.getElementById('rQuote').textContent=p.quote;
+  document.getElementById('riName').textContent=`${p.code}（${p.title}）`;
+  document.getElementById('riBadge').textContent=`匹配度 ${pct}% · 精准命中 ${topCount}/${TOTAL} 题`;
+  document.getElementById('riDesc').textContent=p.desc;
+
+  // 副人格
+  const sub=document.getElementById('resultSub');
+  if(sorted.length>1){
+    const s2=sorted[1];
+    const p2=profiles[s2[0]];
+    if(p2){
+      sub.style.display='block';
+      document.getElementById('rsName').textContent=`${p2.code}（${p2.title}）`;
+      document.getElementById('rsDesc').textContent=`命中 ${s2[1]}/${TOTAL} 题 · ${p2.quote}`;
+    }
+  }else{sub.style.display='none'}
+
+  // 柱状图
+  const colors=['#4a5e4a','#6b8e6b','#8fbc8f','#b5d5b5','#d4e8d4','#e8e8e8'];
+  let barsHtml='';
+  sorted.slice(0,6).forEach(([name,count],i)=>{
+    const pp=Math.round((count/TOTAL)*100);
+    const pf=profiles[name];
+    const label=pf?pf.title:name;
+    barsHtml+=`<div class="bar-row">
+      <span class="bar-name">${label}</span>
+      <div class="bar-track"><div class="bar-val" style="width:${pp}%;background:${colors[i]||colors[5]}"></div></div>
+      <span class="bar-pct">${pp}%</span>
     </div>`;
   });
+  document.getElementById('rBars').innerHTML=barsHtml;
 
-  html += `</div>`;
-  area.innerHTML = html;
-
-  selectedOption = -1;
-  document.getElementById("btnNext").disabled = true;
-  document.getElementById("btnNext").textContent = currentIndex === 19 ? "查看结果" : "下一题";
-
-  // 更新进度
-  const pct = (currentIndex / 20) * 100;
-  document.getElementById("progressFill").style.width = pct + "%";
-  document.getElementById("progressText").textContent = `${currentIndex} / 20`;
+  showPage('pageResult');
 }
 
-function selectOption(idx) {
-  selectedOption = idx;
-  document.querySelectorAll(".option").forEach((el, i) => {
-    el.classList.toggle("selected", i === idx);
-  });
-  document.getElementById("btnNext").disabled = false;
-}
-
-function nextQuestion() {
-  if (selectedOption < 0) return;
-
-  // 计分
-  const q = currentQuestions[currentIndex];
-  const chosen = q.opts[selectedOption];
-  Object.entries(chosen.scores).forEach(([type, val]) => {
-    scores[type] = (scores[type] || 0) + val;
-  });
-
-  currentIndex++;
-  if (currentIndex >= 20) {
-    showResult();
-  } else {
-    renderQuestion();
-  }
-}
-
-function showResult() {
-  document.getElementById("page-quiz").style.display = "none";
-  document.getElementById("page-result").style.display = "block";
-
-  // 计算结果
-  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-  const topType = sorted[0][0];
-  const topScore = sorted[0][1];
-  const maxPossible = 20 * 3; // 理论最高分
-  const matchPct = Math.min(95, Math.max(55, Math.round((topScore / Math.max(maxPossible * 0.3, 1)) * 100)));
-  const typeInfo = TYPES[topType];
-
-  // 结果卡片
-  document.getElementById("resultCard").innerHTML = `
-    <div class="result-header">
-      <div class="result-label">你的无尽冬日人格是：</div>
-      <div class="result-type-name">${typeInfo.name}</div>
-      <div class="result-type-code">${typeInfo.code}</div>
-      <div class="result-match">匹配度 ${matchPct}%</div>
-    </div>
-    <div class="result-desc-title">人格解读</div>
-    <div class="result-desc">${typeInfo.desc}</div>
-  `;
-
-  // 维度评分卡片
-  let dimHtml = `<div class="score-section-title">六维评分</div>`;
-  DIMENSIONS.forEach(dim => {
-    let dimScore = 0;
-    dim.types.forEach(t => dimScore += (scores[t] || 0));
-    const maxDim = 20 * 3 * dim.types.length * 0.25;
-    const pct = Math.min(100, Math.round((dimScore / Math.max(maxDim, 1)) * 100));
-    const level = pct >= 70 ? "high" : pct >= 40 ? "mid" : "low";
-    const label = pct >= 70 ? "高" : pct >= 40 ? "中" : "低";
-
-    dimHtml += `<div class="score-item">
-      <div class="score-label">
-        <span class="score-name">${dim.icon} ${dim.name}</span>
-        <span class="score-value">${label}</span>
-      </div>
-      <div class="score-bar">
-        <div class="score-bar-fill ${level}" style="width: ${pct}%"></div>
-      </div>
-    </div>`;
-  });
-  document.getElementById("scoreCard").innerHTML = dimHtml;
-
-  // Top 3 卡片
-  const top3 = sorted.slice(0, 3);
-  let top3Html = `<div class="score-section-title">最匹配 TOP 3</div><div class="top3-list">`;
-  top3.forEach(([type, score], i) => {
-    const info = TYPES[type];
-    top3Html += `<div class="top3-item">
-      <div class="top3-rank r${i + 1}">${i + 1}</div>
-      <div class="top3-name">${info.name}（${info.code}）</div>
-      <div class="top3-score">${score}分</div>
-    </div>`;
-  });
-  top3Html += `</div>`;
-  document.getElementById("top3Card").innerHTML = top3Html;
-
-  // 进度条满
-  document.getElementById("progressFill").style.width = "100%";
-  document.getElementById("progressText").textContent = "20 / 20";
-}
-
-function shareResult() {
-  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-  const topType = sorted[0][0];
-  const typeInfo = TYPES[topType];
-  const text = `我在「无尽冬日玩家人格测试」中测出的人格是：${typeInfo.name}（${typeInfo.code}）！快来测测你是什么类型！`;
-
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => {
-      alert("结果已复制到剪贴板，快去分享给朋友吧！");
-    }).catch(() => {
-      prompt("复制以下文字分享给朋友：", text);
-    });
-  } else {
-    prompt("复制以下文字分享给朋友：", text);
-  }
-}
-
-function restart() {
-  document.getElementById("page-home").style.display = "block";
-  document.getElementById("page-quiz").style.display = "none";
-  document.getElementById("page-result").style.display = "none";
-  window.scrollTo(0, 0);
-}
+function restart(){showPage('pageHome')}
 </script>
 </body>
 </html>
